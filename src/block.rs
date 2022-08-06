@@ -1,5 +1,7 @@
+
 use std::fmt::{ self, Debug, Formatter };
-pub type BlockHash = Vec<u8>;
+use crate::BlockHash;
+
 pub struct Block {
 
     pub index: u32,

@@ -7,7 +7,7 @@ fn main() {
         Err(_) => panic!("SystemTime before UNIX EPOCH!"),
     };
 
-    let block = Block::new(1, now, vec![0;32], 10000, "hoge".to_string());
+    let block = blockchainlib::Block::new(1, now, vec![0;32], 10000, "hoge".to_string());
 
     println!("Blockchain rust {:?}", block);
 }
