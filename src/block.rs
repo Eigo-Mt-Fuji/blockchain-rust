@@ -1,3 +1,6 @@
+mod block_hash;
+pub use crate::block_hash::BlockHash;
+
 use super::block_hash::BlockHash;
 
 use std::fmt::{ self, Debug, Formatter };
