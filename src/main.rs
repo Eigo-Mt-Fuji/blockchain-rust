@@ -1,66 +1,41 @@
-use blockchainlib::*;
+use std::fmt::{ self, Debug, Formatter };
+use std::time::{ SystemTime };
+pub type BlockHash = Vec<u8>;
+pub struct Block {
 
-fn main () {
-    let difficulty = 0x000fffffffffffffffffffffffffffff;
+    pub index: u32,
+    pub timestamp: u64,
+    pub hash: BlockHash,
+    pub prev_block_hash: BlockHash,
+    pub nonce: u64,
+    pub payload: String,
+}
 
-    let mut genesis_block = Block::new(0, now(), vec![0; 32], vec![
-        Transaction {
-            inputs: vec![ ],
-            outputs: vec![
-                transaction::Output {
-                    to_addr: "Alice".to_owned(),
-                    value: 50,
-                },
-                transaction::Output {
-                    to_addr: "Bob".to_owned(),
-                    value: 7,
-                },
-            ],
-        },
-    ], difficulty);
+impl Block {
+    pub fn new(index: u32,timestamp: u64,prev_block_hash: BlockHash, nonce: u64,payload: String) -> Self {
+        Block {
+            index,
+            timestamp,
+            hash: vec![0; 32],
+            prev_block_hash,
+            nonce,
+            payload
+        }
+    }
+}
+impl Debug for Block {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "Block")
+    }
+}
+fn main() {
 
-    genesis_block.mine();
+    let now = match SystemTime::now().duration_since(SystemTime::UNIX_EPOCH) {
+        Ok(n) => n.as_secs(),
+        Err(_) => panic!("SystemTime before UNIX EPOCH!"),
+    };
 
-    println!("Mined genesis block {:?}", &genesis_block);
+    let block = Block::new(1, now, vec![0;32], 10000, "hoge".to_string());
 
-    let mut last_hash = genesis_block.hash.clone();
-
-    let mut blockchain = Blockchain::new();
-
-    blockchain.update_with_block(genesis_block).expect("Failed to add genesis block");
-
-    let mut block = Block::new(1, now(), last_hash, vec![
-        Transaction {
-            inputs: vec![ ],
-            outputs: vec![
-                transaction::Output {
-                    to_addr: "Chris".to_owned(),
-                    value: 536,
-                },
-            ],
-        },
-        Transaction {
-            inputs: vec![
-                blockchain.blocks[0].transactions[0].outputs[0].clone(),
-            ],
-            outputs: vec![
-                transaction::Output {
-                    to_addr: "Alice".to_owned(),
-                    value: 360,
-                },
-                transaction::Output {
-                    to_addr: "Bob".to_owned(),
-                    value: 12,
-                },
-            ],
-        },
-    ], difficulty);
-
-    block.mine();
-
-    println!("Mined block {:?}", &block);
-
-    last_hash = block.hash.clone();
-
-    blockchain.update_with_block(block).expect("Failed to add block");
+    println!("Blockchain rust {:?}", block);
 }
