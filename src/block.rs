@@ -1,6 +1,6 @@
+use super::block_hash::BlockHash;
 
 use std::fmt::{ self, Debug, Formatter };
-use crate::BlockHash;
 
 pub struct Block {
 
