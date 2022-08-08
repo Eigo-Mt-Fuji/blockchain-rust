@@ -9,14 +9,16 @@ fn main() {
     };
 
     let mut block = Block::new(
-        1, 
-        now, 
+        0, 
+        0, 
         vec![0;32], 
-        1, 
-        "Genesis Block".to_owned()
+        0, 
+        "Genesis Block".to_owned(),
+        0x0008ffffffffffffffffffffffffffff
     );
-    let h = block.hash();
-    println!("block={:?} hash={:?}", &block, h);
-    block.hash = h;
+    println!("block={:?}", &block);
+    block.hash = block.hash();
+    println!("block={:?}, hash={:?}", &block, &block.hash);
+    block.mine();
     println!("block={:?}, hash={:?}", &block, &block.hash);
 }
