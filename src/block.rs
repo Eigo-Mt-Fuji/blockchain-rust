@@ -1,9 +1,8 @@
-mod block_hash;
-pub use crate::block_hash::BlockHash;
+use crate::block_hash::BlockHash;
+use crate::hashable::Hashable;
+use super::*;
 
-use super::block_hash::BlockHash;
-
-use std::fmt::{ self, Debug, Formatter };
+use std::fmt::{ Debug, Result, Formatter };
 
 pub struct Block {
 
@@ -13,6 +12,11 @@ pub struct Block {
     pub prev_block_hash: BlockHash,
     pub nonce: u64,
     pub payload: String,
+}
+impl Debug for Block {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "Block [{}] {} {} {}", &self.index, &hex::encode(&self.hash), &self.timestamp, &self.payload)
+    }
 }
 
 impl Block {
@@ -27,8 +31,15 @@ impl Block {
         }
     }
 }
-impl Debug for Block {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "Block")
+
+impl Hashable for Block {
+
+    fn bytes(&self) -> Vec<u8> {
+        let mut bytes = vec![];
+        bytes.extend(&u32_bytes(&self.index));
+        bytes.extend(&u64_bytes(&self.timestamp));
+        bytes.extend(&self.prev_block_hash);
+        bytes.extend(&u64_bytes(&self.nonce));
+        return bytes;
     }
 }
