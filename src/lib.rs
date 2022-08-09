@@ -7,9 +7,12 @@ pub use crate::block::Block;
 mod hashable;
 pub use crate::hashable::Hashable;
 
+mod blockchain;
+pub use crate::blockchain::Blockchain;
+
 pub fn u32_bytes (u: &u32) -> [u8; 4] {
     [
-        (u >> 8 * 0x0) as u8,
+        (u >> 0x0) as u8,
         (u >> 8 * 0x1) as u8,
         (u >> 8 * 0x2) as u8,
         (u >> 8 * 0x3) as u8,
@@ -18,7 +21,7 @@ pub fn u32_bytes (u: &u32) -> [u8; 4] {
 
 pub fn u64_bytes (u: &u64) -> [u8; 8] {
     [
-        (u >> 8 * 0x0) as u8,
+        (u >> 0x0) as u8,
         (u >> 8 * 0x1) as u8,
         (u >> 8 * 0x2) as u8,
         (u >> 8 * 0x3) as u8,
@@ -32,7 +35,7 @@ pub fn u64_bytes (u: &u64) -> [u8; 8] {
 
 pub fn u128_bytes (u: &u128) -> [u8; 16] {
     [
-        (u >> 8 * 0x0) as u8,
+        (u >> 0x0) as u8,
         (u >> 8 * 0x1) as u8,
         (u >> 8 * 0x2) as u8,
         (u >> 8 * 0x3) as u8,
@@ -54,8 +57,8 @@ pub fn u128_bytes (u: &u128) -> [u8; 16] {
     ]
 }
 
-pub fn difficulty_bytes_as_u128 (v: &Vec<u8>) -> u128 {
     // 16:32, left bit shift 0xf * 8
+pub fn difficulty_bytes_as_u128 (v: &Vec<u8>) -> u128 {
     ((v[31] as u128) << 0xf * 8) |
     ((v[30] as u128) << 0xe * 8) |
     ((v[29] as u128) << 0xd * 8) |
@@ -71,5 +74,5 @@ pub fn difficulty_bytes_as_u128 (v: &Vec<u8>) -> u128 {
     ((v[19] as u128) << 0x3 * 8) |
     ((v[18] as u128) << 0x2 * 8) |
     ((v[17] as u128) << 0x1 * 8) |
-    ((v[16] as u128) << 0x0 * 8)
+    ((v[16] as u128) << 0x0)
 }
