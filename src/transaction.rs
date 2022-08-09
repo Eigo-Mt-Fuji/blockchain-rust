@@ -37,7 +37,7 @@ impl Hashable for Transaction {
 impl Transaction {
 
     pub fn is_coinbase(&self) -> bool {
-        self.inputs.len() == 0
+        self.inputs.is_empty()
     }
     pub fn input_value(&self) -> u64 {
         // TODO: why NOT &self.input?

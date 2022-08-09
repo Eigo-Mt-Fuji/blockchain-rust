@@ -16,6 +16,7 @@ pub use crate::transaction::Output;
 
 pub fn u32_bytes (u: &u32) -> [u8; 4] {
     [
+        // TODO: learn bit shift and why the operation is ineffective, how to fix this based on clippy advice "consider reducing it to `8` "
         (u >> 0x0) as u8,
         (u >> (8 * 0x1)) as u8,
         (u >> (8 * 0x2)) as u8,
