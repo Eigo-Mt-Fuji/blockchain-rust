@@ -5,7 +5,7 @@ use super::*;
 use std::fmt::{ Debug, Result, Formatter };
 
 pub fn check_difficulty(hash: &BlockHash, difficulty:  u128) -> bool {
-    difficulty > difficulty_bytes_as_u128(&hash)
+    difficulty > difficulty_bytes_as_u128(hash)
 }
 
 pub struct Block {
@@ -59,6 +59,6 @@ impl Hashable for Block {
         bytes.extend(&self.prev_block_hash);
         bytes.extend(&u64_bytes(&self.nonce));
         bytes.extend(&u128_bytes(&self.difficulty));
-        return bytes;
+        bytes
     }
 }

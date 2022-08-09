@@ -13,7 +13,7 @@ fn make_genesis_block(difficulty: u128) -> Block {
     );
     block.mine();
     println!("Mined genesis block={:?}, hash={:?}", &block, &block.hash);
-    return block;
+    block
 }
 
 fn main() {
