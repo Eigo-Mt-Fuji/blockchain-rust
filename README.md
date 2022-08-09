@@ -2,7 +2,7 @@
 
 ## About 
 
-This is a exercise program of "Youtube Blockchain  in Rust 01-05"
+This is a exercise outputs for Youtube course "Blockchain in Rust".
 
 [![img](https://img.youtube.com/vi/vJdT05zl6jk/0.jpg)](https://www.youtube.com/watch?v=vJdT05zl6jk&t=2s)
 
