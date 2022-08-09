@@ -50,7 +50,7 @@ impl Transaction {
     }
 
     pub fn input_hashes(&self) -> HashSet<Hash> {
-        // TODO: why NOT &self.input?
+        // TODO: how does it work: self.inputs.iter().map(|val| val.hash() ).collect::<HashSet<Hash>>()
         self.inputs.iter().map(|val| val.hash() ).collect::<HashSet<Hash>>()
     }
     pub fn output_hashes(&self) -> HashSet<Hash> {

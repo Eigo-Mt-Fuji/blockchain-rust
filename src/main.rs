@@ -90,6 +90,7 @@ fn main() {
     block.mine();
     println!("Mined block: {:?}", &block);
 
+    // TODO: bestpractice, expect, unwrap_or_else, or handle result using match syntax.
     chain.update_with_block(block).unwrap_or_else(|n| panic!("Failed add a block = {:?}", n));
     
     println!("{:?}", &chain.blocks);
