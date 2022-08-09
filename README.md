@@ -1,5 +1,11 @@
 # blockchain-rust
 
+## About 
+
+This is a exercise program of "Youtube Blockchain  in Rust 01-05"
+
+[![img](https://img.youtube.com/vi/vJdT05zl6jk/0.jpg)](https://www.youtube.com/watch?v=vJdT05zl6jk&t=2s)
+
 ## Environments
 
 | Name | Version |
