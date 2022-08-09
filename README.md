@@ -2,9 +2,9 @@
 
 ## Environments
 
-|Name||Version|
+| Name | Version |
 |:----:|:----:|
-|rust|1.62.1|
+| rust | 1.62.1 | 
 
 ## How to run
 
