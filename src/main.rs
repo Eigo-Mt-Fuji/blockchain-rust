@@ -1,4 +1,7 @@
+
+#[allow(unused_imports)]
 use std::time::{ SystemTime };
+
 use blockchainlib::*;
 
 fn make_genesis_block(difficulty: u128) -> Block {
@@ -8,7 +11,22 @@ fn make_genesis_block(difficulty: u128) -> Block {
         0, 
         vec![0;32], 
         0, 
-        "Genesis Block".to_owned(),
+        vec![
+            Transaction {
+                inputs: vec![
+                ],
+                outputs: vec![
+                    Output {
+                        to_addr: "Alice".to_owned(),
+                        value: 100,
+                    },
+                    Output {
+                        to_addr: "Bob".to_owned(),
+                        value: 200,
+                    },
+                ],
+            }
+        ],
         difficulty
     );
     block.mine();
@@ -20,26 +38,59 @@ fn main() {
 
     let difficulty = 0x000fffffffffffffffffffffffffffff;
 
-    let block = make_genesis_block(difficulty);
-    let mut last_hash = block.hash.clone();
-    let mut chain = Blockchain {
-        blocks: vec![block]
-    };
+    let geneis_block = make_genesis_block(difficulty);
+    let last_hash = geneis_block.hash.clone();
     
-    for i in 1..3 {
-        let duration = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap();
-        let now = duration.as_secs() as u64 * 1000 + duration.subsec_millis() as u64;
+    // make chain and put genesis block
+    let mut chain = Blockchain::new();
+    chain.update_with_block(geneis_block).expect("Failed add geneis block.");
 
-        let mut block = Block::new(i, now, last_hash, 0, "Another block!".to_owned(), difficulty);
+    let duration = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap();
+    let now = duration.as_secs() as u64 * 1000 + duration.subsec_millis() as u64;
 
-        block.mine();
-        println!("Mined block: {:?}", &block);
+    let mut block = Block::new(
+        1, 
+        now, 
+        last_hash, 
+        0, 
+        vec![
+            Transaction {
+                inputs: vec![
+                ],
+                outputs: vec![
+                    Output {
+                        //TODO: what does it means String.to_owned
+                        to_addr: "Chris".to_owned(),
+                        value: 100,
+                    },
+                ]
+            },
+            Transaction {
+                inputs: vec![
+                    // TODO: how does it work struct clone.
+                    // TODO: what does it means blockchainlib::Output`, which does not implement the `Copy` trait.
+                    chain.blocks[0].transactions[0].outputs[0].clone()
+                ],
+                outputs: vec![
+                    Output {
+                        //TODO: what does it means String.to_owned
+                        to_addr: "Nice girl".to_owned(),
+                        value: 90,
+                    },
+                    Output {
+                        to_addr: "Good guy".to_owned(),
+                        value: 10,
+                    }
+                ]
+            }
 
-        last_hash = block.hash.clone();
+        ]
+        , difficulty);
 
-        chain.blocks.push(block);
-        println!("Verify={}", chain.verify());
-    }
-//    chain.blocks[2].index += 1;
-    println!("{:?} verify_result={}", &chain.blocks, chain.verify());
+    block.mine();
+    println!("Mined block: {:?}", &block);
+
+    chain.update_with_block(block).unwrap_or_else(|n| panic!("Failed add a block = {:?}", n));
+    
+    println!("{:?}", &chain.blocks);
 }

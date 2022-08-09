@@ -1,5 +1,5 @@
-mod block_hash;
-pub use crate::block_hash::BlockHash;
+pub type Hash = Vec<u8>;
+pub type Address = String;
 
 mod block;
 pub use crate::block::Block;
@@ -9,6 +9,10 @@ pub use crate::hashable::Hashable;
 
 mod blockchain;
 pub use crate::blockchain::Blockchain;
+
+mod transaction;
+pub use crate::transaction::Transaction;
+pub use crate::transaction::Output;
 
 pub fn u32_bytes (u: &u32) -> [u8; 4] {
     [
